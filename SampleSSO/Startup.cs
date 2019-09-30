@@ -52,12 +52,13 @@ namespace SampleSSO
              {
                  options.SignInScheme = "Cookies";
 
-                 options.Authority = "https://prod-identityserver.usaid-apps-east.p.azurewebsites.net/core/";
-                 options.ClientId = "v2wZTLJXh62WeVp9fk";
+                 //options.Authority = "https://prod-identityserver.usaid-apps-east.p.azurewebsites.net/core/";
+                 options.Authority = "https://identitydev-test.usaid.gov/";
+                 options.ClientId = "C8A30346-BDCD-4D7E-B560-0B50F0075076";
                  options.RequireHttpsMetadata = false;
-                 options.CallbackPath = "/index";
+                 options.CallbackPath = "/Home";
                  options.SaveTokens = true;
-                 options.Scope.Add("roles");
+                 //options.Scope.Add("roles");
                  //options.Scope.Add("upn");
              });
         }

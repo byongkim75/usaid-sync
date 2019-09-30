@@ -20,10 +20,10 @@ namespace SampleSSO.Controllers
         }        
 
         public async Task Logout()
-        {            
-            await HttpContext.SignOutAsync("Cookies");
-            await HttpContext.SignOutAsync("oidc");
-
+        {
+            //await HttpContext.SignOutAsync("Cookies");
+            //await HttpContext.SignOutAsync("oidc");
+            await HttpContext.SignOutAsync();
         }
     }
 }
