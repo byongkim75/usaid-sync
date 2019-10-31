@@ -95,8 +95,12 @@ namespace SampleSSO
                 options.RequireHttpsMetadata = Configuration.GetSection("AuthenticationServer:RequireHttpsMetadata").Get<bool>();
                 options.CallbackPath = Configuration.GetSection("AuthenticationServer:CallbackPath").Get<string>();
                 options.SaveTokens = Configuration.GetSection("AuthenticationServer:SaveTokens").Get<bool>();
-                //options.Scope.Add("roles");
-                //options.Scope.Add("upn");
+                options.ResponseType = "code id_token";
+                options.ClientSecret = "0Zv-RDnIc2e8O7wFwov0jVfLA85EqzMt_fS9fxGt";
+                //options.Scope.Add("allow_get");
+                options.Scope.Add("allow_post");
+                options.Scope.Add("openid");
+                //options.Scope.Add("open_id");
             });
         }
 

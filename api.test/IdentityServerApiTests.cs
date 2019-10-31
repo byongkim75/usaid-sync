@@ -252,5 +252,49 @@ namespace api.test
             }
 
         }
+
+        [TestMethod]
+        public async System.Threading.Tasks.Task Get_Value_Okta_Api()
+        {
+            var client = new HttpClient();
+       
+
+
+            //Obtain API auth token by passing in client Secret
+            var tokenResponse = client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+            {
+                Address = "https://usaid-eval.okta.com/oauth2/aus1hojtgdwFd1g7T0h8/v1/token",
+
+                ClientId = "0oa1hojw7b3X3Jioc0h8",
+                ClientSecret = "Mib8Ver6qmpugjC3pbqilyojsWzFpPGy03qHu_wN",
+                Scope = "openid,profile,email,address,phone,offline_access",
+                GrantType = "client_credentials"
+            });
+
+            if (tokenResponse.IsError)
+            {
+                Console.WriteLine(tokenResponse.Error);
+                return;
+            }
+
+
+            // call api
+            var client2 = new HttpClient();
+            client2.SetBearerToken(tokenResponse.AccessToken);
+
+            //Consume API with the auth token
+            var response = await client2.GetAsync("https://identitydev-test.usaid.gov/api/users/bykim@usaid.gov");
+            //var response = await client2.GetAsync("https://localhost:44345/users/bykim@usaid.gov");
+            if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine(response.StatusCode);
+            }
+            else
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                Console.WriteLine(JArray.Parse(content));
+            }
+
+        }
     }
 }
