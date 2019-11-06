@@ -8,4 +8,11 @@ namespace SampleSSO.Models
 
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
     }
+
+    public class ValueModel
+    {
+        public int Id { get; set; }
+
+        public string Value { get; set; }
+    }
 }

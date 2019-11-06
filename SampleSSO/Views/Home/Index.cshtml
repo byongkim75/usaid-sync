@@ -11,4 +11,25 @@
         <dd>@claim.Value</dd>
     }
 </dl>
+
+@Html.ActionLink("Get Access token", "GetToken", "Home")
+<form method="POST" action="@Url.Action("GetValues", "Home")">
+   
+    <label for="accessToken">Access Token</label>
+    <input type="text" name="accessToken" id="accessToken">
+    <input type="submit" value="Get Values">
+    <label>Values: </label> @ViewBag.Values
+</form>
+
+
+<form method="POST" action="@Url.Action("PostValue", "Home")">
+    <label for="accessToken2">Access Token</label>
+    <input type="text" name="accessToken2" id="accessToken2">    
+    <label for="myValue">Value to post</label>
+    <input type="text" name="myValue" id="myValue">
+    <input type="submit" value="Post Value">
+    <label>Message: </label> @ViewBag.Message
+</form>
+
+
 </div>

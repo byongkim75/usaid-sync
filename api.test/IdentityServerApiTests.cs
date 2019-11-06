@@ -271,16 +271,16 @@ namespace api.test
                 GrantType = "client_credentials"
             });
 
-            if (tokenResponse.IsError)
+            if (tokenResponse.IsFaulted)
             {
-                Console.WriteLine(tokenResponse.Error);
+                Console.WriteLine(tokenResponse.Result);
                 return;
             }
 
 
             // call api
             var client2 = new HttpClient();
-            client2.SetBearerToken(tokenResponse.AccessToken);
+            client2.SetBearerToken(tokenResponse.Result.AccessToken);
 
             //Consume API with the auth token
             var response = await client2.GetAsync("https://identitydev-test.usaid.gov/api/users/bykim@usaid.gov");
