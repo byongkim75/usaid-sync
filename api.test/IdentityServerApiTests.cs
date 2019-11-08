@@ -45,7 +45,7 @@ namespace api.test
             // call api
             var client2 = new HttpClient();
             client2.SetBearerToken(tokenResponse.AccessToken);
-
+            
             //Consume API with the auth token
             var response = await client2.GetAsync("https://identitydev-test.usaid.gov/api/users/bykim@usaid.gov");
             //var response = await client2.GetAsync("https://localhost:44345/users/bykim@usaid.gov");

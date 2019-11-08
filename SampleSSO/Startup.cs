@@ -126,8 +126,8 @@ namespace SampleSSO
             //    .AllowCredentials());
 
             app.UseAuthentication();
-            
 
+            app.UseMiddleware<RequestResponseLoggingMiddleware>();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>

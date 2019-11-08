@@ -88,7 +88,7 @@ namespace SampleSSO.Controllers
             return View("Index");
         }
 
-        public IActionResult GetToken(int index)
+        public async void GetToken(int index)
         {
             //var client = new HttpClient();
 
@@ -127,21 +127,27 @@ namespace SampleSSO.Controllers
 
             var state = Guid.NewGuid().ToString();
             var nonce = Guid.NewGuid().ToString();
-            var scope = "openid%20allow_post";
+            var scope = "openid%20allow_post%20allow_get";
 
             foreach(var claim in HttpContext.User.Claims)
             {
                 if (claim.Value == "kim.byong@miraclesystems.net")
-                    scope = "openid";
+                    scope = "openid%20allow_get";
             }
+
+            //var url = string.Format("https://usaid-eval.okta.com/oauth2/default/v1/authorize?client_id=0oa1hn4cac4BZMxnx0h8&redirect_uri=http://localhost:51338/Home/&response_type=code%20token&response_mode=fragment&scope={0}&state={1}&nonce={2}&prompt=none", scope, state, nonce);
+            var url = string.Format("https://usaid-eval.okta.com/oauth2/default/v1/authorize?client_id=0oa1hn4cac4BZMxnx0h8&redirect_uri=https://sso-poc-sample-clientapp.usaid-devapps-east.p.azurewebsites.net/Home/&response_type=code%20token&response_mode=fragment&scope={0}&state={1}&nonce={2}&prompt=none", scope, state, nonce);
+            //var url = string.Format("https://usaid-eval.okta.com/oauth2/default/v1/authorize?client_id=0oa1hn4cac4BZMxnx0h8&redirect_uri=http://localhost:51338/Home/&response_type=code%20token&response_mode=form_post&scope={0}&state={1}&nonce={2}&prompt=none", scope, state, nonce);
+
+            var client2 = new HttpClient();
+            var response = await client2.GetAsync(url);
             
-            var url = string.Format("https://usaid-eval.okta.com/oauth2/default/v1/authorize?client_id=0oa1hn4cac4BZMxnx0h8&redirect_uri=http://localhost:51338/Home/&response_type=code%20token&response_mode=fragment&scope={0}&state={1}&nonce={2}&prompt=none", scope, state, nonce);
-            HttpContext.Response.Redirect(url);
-                       
+            //HttpContext.Response.Redirect(url);
+
             //string msg;
             //var response = WebRequest("GET", url, "", out msg);
-                        
-            return View("Index");
+
+
         }
 
         public async Task Logout()
