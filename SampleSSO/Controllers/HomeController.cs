@@ -139,10 +139,10 @@ namespace SampleSSO.Controllers
             var url = string.Format("https://usaid-eval.okta.com/oauth2/default/v1/authorize?client_id=0oa1hn4cac4BZMxnx0h8&redirect_uri=https://sso-poc-sample-clientapp.usaid-devapps-east.p.azurewebsites.net/Home/&response_type=code%20token&response_mode=fragment&scope={0}&state={1}&nonce={2}&prompt=none", scope, state, nonce);
             //var url = string.Format("https://usaid-eval.okta.com/oauth2/default/v1/authorize?client_id=0oa1hn4cac4BZMxnx0h8&redirect_uri=http://localhost:51338/Home/&response_type=code%20token&response_mode=form_post&scope={0}&state={1}&nonce={2}&prompt=none", scope, state, nonce);
 
-            var client2 = new HttpClient();
-            var response = await client2.GetAsync(url);         
-            
+            //var client2 = new HttpClient();
+            //var response = await client2.GetAsync(url);         
 
+            HttpContext.Response.Redirect(url);
 
         }
 
