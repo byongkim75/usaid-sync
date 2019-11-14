@@ -13,10 +13,10 @@
 </dl>
 
 @Html.ActionLink("Get Access token", "GetToken", "Home")
-<form method="POST" action="@Url.Action("GetValues", "Home")">
-   
-    <label for="accessToken">Access Token</label>
-    <input type="text" name="accessToken" id="accessToken">
+
+<form method="POST" action="@Url.Action("GetValues")">    
+    <label for="accessToken">Access Token</label> 
+    <input type="text" name="accessToken" id="accessToken" />
     <input type="submit" value="Get Values">
     <label>Message: </label> @ViewBag.Values
 </form>

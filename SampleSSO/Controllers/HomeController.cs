@@ -44,7 +44,7 @@ namespace SampleSSO.Controllers
 
         [HttpPost]
         public async Task<IActionResult> GetValues(string accessToken)
-        {
+        {            
             // call api
             var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(JwtBearerDefaults.AuthenticationScheme, accessToken);
