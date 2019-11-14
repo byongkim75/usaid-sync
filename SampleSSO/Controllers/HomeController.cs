@@ -51,7 +51,7 @@ namespace SampleSSO.Controllers
             client.SetBearerToken(accessToken);
 
             //Consume API with the auth token
-            var response = await client.GetAsync("http://localhost:51005/api/values");
+            var response = await client.GetAsync("https://sso-poc-sample-clientapp.usaid-devapps-east.p.azurewebsites.net/api/api/values");
 
             var content = await response.Content.ReadAsStringAsync();
 
@@ -79,7 +79,7 @@ namespace SampleSSO.Controllers
             //Consume API with the auth token
             var data = new StringContent(json);
             data.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            var response = await client.PostAsync("http://localhost:51005/api/values", data);
+            var response = await client.PostAsync("https://sso-poc-sample-clientapp.usaid-devapps-east.p.azurewebsites.net/api/api/values", data);
 
             var content = await response.Content.ReadAsStringAsync();
 
