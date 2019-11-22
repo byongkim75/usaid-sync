@@ -55,6 +55,9 @@ namespace SampleSSO.Controllers
 
             var content = await response.Content.ReadAsStringAsync();
 
+            if (content == "")
+                content = response.ReasonPhrase;
+
             ViewBag.Values = content;
             
             return View("Index");
@@ -83,6 +86,9 @@ namespace SampleSSO.Controllers
 
             var content = await response.Content.ReadAsStringAsync();
 
+            if (content == "")
+                content = response.ReasonPhrase;
+
             ViewBag.Message = content;
 
             return View("Index");
@@ -93,7 +99,7 @@ namespace SampleSSO.Controllers
             //var client = new HttpClient();
 
 
-            
+
 
             //Dictionary<string, string> parameters = new Dictionary<string, string>();
             ////parameters.Add("client_id", "0oa1hn4cac4BZMxnx0h8");
@@ -129,20 +135,69 @@ namespace SampleSSO.Controllers
             var nonce = Guid.NewGuid().ToString();
             var scope = "openid%20allow_post%20allow_get";
 
-            foreach(var claim in HttpContext.User.Claims)
+            foreach (var claim in HttpContext.User.Claims)
             {
                 if (claim.Value == "kim.byong@miraclesystems.net")
                     scope = "openid%20allow_get";
             }
 
-            //var url = string.Format("https://usaid-eval.okta.com/oauth2/default/v1/authorize?client_id=0oa1hn4cac4BZMxnx0h8&redirect_uri=http://localhost:51338/Home/&response_type=code%20token&response_mode=fragment&scope={0}&state={1}&nonce={2}&prompt=none", scope, state, nonce);
-            var url = string.Format("https://usaid-eval.okta.com/oauth2/default/v1/authorize?client_id=0oa1hn4cac4BZMxnx0h8&redirect_uri=https://sso-poc-sample-clientapp.usaid-devapps-east.p.azurewebsites.net/Home/&response_type=code%20token&response_mode=fragment&scope={0}&state={1}&nonce={2}&prompt=none", scope, state, nonce);
+            var url = string.Format("https://usaid-eval.okta.com/oauth2/default/v1/authorize?client_id=0oa1hn4cac4BZMxnx0h8&redirect_uri=http://localhost:51338/Home/&response_type=code%20token&response_mode=fragment&scope={0}&state={1}&nonce={2}&prompt=none", scope, state, nonce);
+            //var url = string.Format("https://usaid-eval.okta.com/oauth2/default/v1/authorize?client_id=0oa1hn4cac4BZMxnx0h8&redirect_uri=https://sso-poc-sample-clientapp.usaid-devapps-east.p.azurewebsites.net/Home/&response_type=code%20token&response_mode=fragment&scope={0}&state={1}&nonce={2}&prompt=none", scope, state, nonce);
             //var url = string.Format("https://usaid-eval.okta.com/oauth2/default/v1/authorize?client_id=0oa1hn4cac4BZMxnx0h8&redirect_uri=http://localhost:51338/Home/&response_type=code%20token&response_mode=form_post&scope={0}&state={1}&nonce={2}&prompt=none", scope, state, nonce);
 
-            //var client2 = new HttpClient();
-            //var response = await client2.GetAsync(url);         
+            string idToken = await HttpContext.GetTokenAsync("id_token");
 
-            HttpContext.Response.Redirect(url);
+            var handler = new HttpClientHandler();
+            //handler.CookieContainer = new CookieContainer(300);
+            //handler.UseCookies = true;
+            //handler.UseDefaultCredentials = true;
+            //foreach (var cookie in HttpContext.Request.Cookies)
+            //{
+            //    var cook = new Cookie(cookie.Key, cookie.Value, "/", "localhost");
+
+            //    handler.CookieContainer.Add(cook);
+            //}
+
+            
+            //foreach (var header in HttpContext.Request.Headers)
+            //{
+            //    client2.DefaultRequestHeaders.Add(header.Key, header.Value.ToString());
+            //}
+
+
+
+            //client2.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", idToken);
+
+            var msg = new HttpRequestMessage()
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(url)
+            };
+
+
+            foreach (var header in HttpContext.Request.Headers)
+            {
+                msg.Headers.Add(header.Key, header.Value.ToString());
+            }
+
+            var client2 = new HttpClient();
+
+            var resp = await client2.RequestAuthorizationCodeTokenAsync(new AuthorizationCodeTokenRequest
+            {
+                
+            });
+
+            //try
+            //{
+            //    HttpContext.Response.Redirect(url, true);
+            //}
+            //catch (Exception ex)
+            //{
+
+            //}
+
+            //string msg;
+            //var response = WebRequest("GET", url, "", out msg);
 
         }
 
@@ -158,7 +213,9 @@ namespace SampleSSO.Controllers
         {
             HttpWebRequest webRequest = null;
             string responseData = "";
-                        
+
+            
+
             webRequest = System.Net.WebRequest.Create(url) as HttpWebRequest;
             webRequest.AllowAutoRedirect = false;
 
@@ -193,11 +250,11 @@ namespace SampleSSO.Controllers
             string responseData = "";
 
 
-            HttpWebResponse response = (HttpWebResponse)webRequest.GetResponse();
+            HttpWebResponse response = null;
 
             try
             {
-                
+                response = (HttpWebResponse)webRequest.GetResponse();
                 //if (response.StatusCode != HttpStatusCode.OK)
                 //    throw new Exception(response.StatusDescription);
                 responseReader = new StreamReader(response.GetResponseStream());
