@@ -51,7 +51,8 @@ namespace SampleSSO.Controllers
             client.SetBearerToken(accessToken);
 
             //Consume API with the auth token
-            var response = await client.GetAsync("https://sso-poc-sample-clientapp.usaid-devapps-east.p.azurewebsites.net/api/api/values");
+            //var response = await client.GetAsync("https://sso-poc-sample-clientapp.usaid-devapps-east.p.azurewebsites.net/api/api/values");
+            var response = await client.GetAsync("http://localhost:51005/api/values");
 
             var content = await response.Content.ReadAsStringAsync();
 
@@ -126,9 +127,7 @@ namespace SampleSSO.Controllers
             //    Console.WriteLine(tokenResponse.Error);
             //}
 
-
-
-
+                       
             var client = new HttpClient();
 
             var state = Guid.NewGuid().ToString();
@@ -168,33 +167,33 @@ namespace SampleSSO.Controllers
 
             //client2.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", idToken);
 
-            var msg = new HttpRequestMessage()
-            {
-                Method = HttpMethod.Get,
-                RequestUri = new Uri(url)
-            };
+            //var msg = new HttpRequestMessage()
+            //{
+            //    Method = HttpMethod.Get,
+            //    RequestUri = new Uri(url)
+            //};
 
 
-            foreach (var header in HttpContext.Request.Headers)
-            {
-                msg.Headers.Add(header.Key, header.Value.ToString());
-            }
+            //foreach (var header in HttpContext.Request.Headers)
+            //{
+            //    msg.Headers.Add(header.Key, header.Value.ToString());
+            //}
 
-            var client2 = new HttpClient();
+            //var client2 = new HttpClient();
 
-            var resp = await client2.RequestAuthorizationCodeTokenAsync(new AuthorizationCodeTokenRequest
-            {
+            //var resp = await client2.RequestAuthorizationCodeTokenAsync(new AuthorizationCodeTokenRequest
+            //{
                 
-            });
+            //});
 
-            //try
-            //{
-            //    HttpContext.Response.Redirect(url, true);
-            //}
-            //catch (Exception ex)
-            //{
+            try
+            {
+                HttpContext.Response.Redirect(url, true);
+            }
+            catch (Exception ex)
+            {
 
-            //}
+            }
 
             //string msg;
             //var response = WebRequest("GET", url, "", out msg);
