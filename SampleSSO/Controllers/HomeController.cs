@@ -51,8 +51,8 @@ namespace SampleSSO.Controllers
             client.SetBearerToken(accessToken);
 
             //Consume API with the auth token
-            //var response = await client.GetAsync("https://sso-poc-sample-clientapp.usaid-devapps-east.p.azurewebsites.net/api/api/values");
-            var response = await client.GetAsync("http://localhost:51005/api/values");
+            var response = await client.GetAsync("https://sso-poc-sample-clientapp.usaid-devapps-east.p.azurewebsites.net/api/api/values");
+            //var response = await client.GetAsync("http://localhost:51005/api/values");
 
             var content = await response.Content.ReadAsStringAsync();
 
@@ -140,8 +140,8 @@ namespace SampleSSO.Controllers
                     scope = "openid%20allow_get";
             }
 
-            var url = string.Format("https://usaid-eval.okta.com/oauth2/default/v1/authorize?client_id=0oa1hn4cac4BZMxnx0h8&redirect_uri=http://localhost:51338/Home/&response_type=code%20token&response_mode=fragment&scope={0}&state={1}&nonce={2}&prompt=none", scope, state, nonce);
-            //var url = string.Format("https://usaid-eval.okta.com/oauth2/default/v1/authorize?client_id=0oa1hn4cac4BZMxnx0h8&redirect_uri=https://sso-poc-sample-clientapp.usaid-devapps-east.p.azurewebsites.net/Home/&response_type=code%20token&response_mode=fragment&scope={0}&state={1}&nonce={2}&prompt=none", scope, state, nonce);
+            //var url = string.Format("https://usaid-eval.okta.com/oauth2/default/v1/authorize?client_id=0oa1hn4cac4BZMxnx0h8&redirect_uri=http://localhost:51338/Home/&response_type=code%20token&response_mode=fragment&scope={0}&state={1}&nonce={2}&prompt=none", scope, state, nonce);
+            var url = string.Format("https://usaid-eval.okta.com/oauth2/default/v1/authorize?client_id=0oa1hn4cac4BZMxnx0h8&redirect_uri=https://sso-poc-sample-clientapp.usaid-devapps-east.p.azurewebsites.net/Home/&response_type=code%20token&response_mode=fragment&scope={0}&state={1}&nonce={2}&prompt=none", scope, state, nonce);
             //var url = string.Format("https://usaid-eval.okta.com/oauth2/default/v1/authorize?client_id=0oa1hn4cac4BZMxnx0h8&redirect_uri=http://localhost:51338/Home/&response_type=code%20token&response_mode=form_post&scope={0}&state={1}&nonce={2}&prompt=none", scope, state, nonce);
 
             string idToken = await HttpContext.GetTokenAsync("id_token");
