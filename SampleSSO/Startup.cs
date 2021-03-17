@@ -36,6 +36,18 @@ namespace SampleSSO
             })
                 .AddCookie("Cookies")
 
+                .AddOpenIdConnect("oidc", options =>
+                {
+                    options.SignInScheme = "Cookies";
+                    options.Authority = "https://usaidcfib2c.b2clogin.com/usaidcfib2c.onmicrosoft.com/B2C_1A_signup_signin/";
+                    options.ClientId = "fb101b11-4519-4bf6-8be5-c42349a86502";
+                    options.MetadataAddress = "https://usaidcfib2c.b2clogin.com/usaidcfib2c.onmicrosoft.com/B2C_1A_signup_signin/v2.0/.well-known/openid-configuration";
+                    options.RequireHttpsMetadata = false;
+                    options.CallbackPath = "/Home";
+                    options.SaveTokens = true;
+                    options.Scope.Add("roles");
+                });
+
             //.AddOpenIdConnect("oidc", options =>
             //{
             //    options.SignInScheme = "Cookies";
@@ -65,6 +77,9 @@ namespace SampleSSO
             //    options.Scope.Add("roles");
             //    //options.Scope.Add("upn");
             //});
+
+
+            //test 
             //.AddOpenIdConnect("oidc", options =>
             // {
             //     options.SignInScheme = "Cookies";
@@ -75,7 +90,7 @@ namespace SampleSSO
             //     options.RequireHttpsMetadata = false;
             //     options.CallbackPath = "/Home";
             //     options.SaveTokens = true;
-            //     //options.Scope.Add("roles");
+            //     options.Scope.Add("roles");
             //     //options.Scope.Add("upn");
             // });
 
@@ -94,22 +109,22 @@ namespace SampleSSO
             //    //options.Scope.Add("roles");
             //    //options.Scope.Add("upn");
             //});
-            .AddOpenIdConnect("oidc", options =>
-            {
-                options.SignInScheme = Configuration.GetSection("AuthenticationServer:SignInScheme").Get<string>();
-                options.Authority = Configuration.GetSection("AuthenticationServer:Authority").Get<string>();
-                options.ClientId = Configuration.GetSection("AuthenticationServer:ClientId").Get<string>();
-                options.RequireHttpsMetadata = Configuration.GetSection("AuthenticationServer:RequireHttpsMetadata").Get<bool>();
-                options.CallbackPath = Configuration.GetSection("AuthenticationServer:CallbackPath").Get<string>();
-                options.SaveTokens = Configuration.GetSection("AuthenticationServer:SaveTokens").Get<bool>();
-                options.ResponseType = "id_token";
-                options.ClientSecret = "0Zv-RDnIc2e8O7wFwov0jVfLA85EqzMt_fS9fxGt";
-                //options.Scope.Add("allow_get");
-                //options.Scope.Add("allow_post");
-                options.Scope.Add("openid");
+            //.AddOpenIdConnect("oidc", options =>
+            //{
+            //    options.SignInScheme = Configuration.GetSection("AuthenticationServer:SignInScheme").Get<string>();
+            //    options.Authority = Configuration.GetSection("AuthenticationServer:Authority").Get<string>();
+            //    options.ClientId = Configuration.GetSection("AuthenticationServer:ClientId").Get<string>();
+            //    options.RequireHttpsMetadata = Configuration.GetSection("AuthenticationServer:RequireHttpsMetadata").Get<bool>();
+            //    options.CallbackPath = Configuration.GetSection("AuthenticationServer:CallbackPath").Get<string>();
+            //    options.SaveTokens = Configuration.GetSection("AuthenticationServer:SaveTokens").Get<bool>();
+            //    options.ResponseType = "id_token";
+            //    options.ClientSecret = "0Zv-RDnIc2e8O7wFwov0jVfLA85EqzMt_fS9fxGt";
+            //    options.Scope.Add("allow_get");
+            //    options.Scope.Add("allow_post");
+            //    options.Scope.Add("openid");
 
-                //options.Scope.Add("open_id");
-            });
+            //    options.Scope.Add("open_id");
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
